@@ -1,0 +1,26 @@
+version: "2.0"
+
+rules:
+  - rule: Handle flight booking for Redmi users
+    steps:
+      - intent: book_flight
+      - action: action_search_flights
+      - slot_was_set:
+          - search_completed: true
+      - action: utter_flight_results
+
+  - rule: Handle hotel booking for Redmi users
+    steps:
+      - intent: book_hotel
+      - action: action_search_hotels
+      - slot_was_set:
+          - search_completed: true
+      - action: utter_hotel_results
+
+  - rule: Validate user input for Redmi devices
+    steps:
+      - intent: validate_input
+      - action: action_validate_input
+      - slot_was_set:
+          - input_valid: true
+      - action: utter_input_validated

@@ -1,0 +1,56 @@
+version: "2.0"
+
+nlu:
+- intent: greet
+  examples: |
+    - مرحبا
+    - أهلاً
+    - السلام عليكم
+    - مرحبا بك
+    - كيف حالك؟
+
+- intent: goodbye
+  examples: |
+    - وداعاً
+    - إلى اللقاء
+    - مع السلامة
+    - أراك لاحقاً
+
+- intent: book_flight
+  examples: |
+    - أريد حجز رحلة
+    - أحتاج إلى حجز طيران
+    - هل يمكنني حجز رحلة؟
+    - أريد السفر إلى [باريس](ville_destination) من [الدار البيضاء](ville_depart) في [15 مايو](date_depart)
+
+- intent: book_hotel
+  examples: |
+    - أريد حجز فندق
+    - هل يمكنني حجز غرفة في فندق؟
+    - أحتاج إلى حجز فندق في [مراكش](ville_hotel)
+    - أريد الإقامة في فندق لمدة [3](nombre_personnes) أشخاص
+
+- intent: inquire_flight
+  examples: |
+    - ما هي الرحلات المتاحة إلى [لندن](ville_destination)؟
+    - هل هناك رحلات من [فاس](ville_depart) إلى [دبي](ville_destination)؟
+    - أريد معرفة مواعيد الرحلات إلى [نيويورك](ville_destination)
+
+- intent: inquire_hotel
+  examples: |
+    - ما هي الفنادق المتاحة في [طنجة](ville_hotel)؟
+    - هل يمكنك إخباري عن الفنادق في [الرباط](ville_hotel)؟
+    - أريد معرفة أسعار الفنادق في [أكادير](ville_hotel)
+
+- intent: provide_feedback
+  examples: |
+    - كانت تجربتي رائعة
+    - أود أن أشارك ملاحظاتي
+    - كانت الخدمة جيدة جداً
+    - أريد تقديم ملاحظات حول الحجز
+
+- intent: check_redmi_support
+  examples: |
+    - هل تدعمون أجهزة ريدمي؟
+    - أريد معرفة المزيد عن دعم ريدمي
+    - هل يمكنني استخدام ريدمي لحجز الرحلات؟
