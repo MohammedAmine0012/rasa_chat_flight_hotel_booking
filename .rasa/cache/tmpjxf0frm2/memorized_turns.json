@@ -1,0 +1,27 @@
+{
+  "lookup": {
+    "eJyLrq6NBQAEOAGx": "action_listen",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taS2NhYA6dwbhQ==": "utter_greet",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpbhMiAUAQvc0lw==": "action_listen",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMgV+fkpSZWptbWxAExvTz0=": "utter_goodbye",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMgV+fkpSZWpRLoDqhi3KbEAotRp8w==": "action_listen",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohKT8/Oz4jvyQ1p7Y2FgB5Ax2U": "hotel_form",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohKT8/Oz4jvyQ1p5aAQWBF8Wn5Rbn4TYkFADQ2ODo=": "action_search_hotels",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohKT8/Oz4jvyQ1p5aAQWBF8Wn5RbmUmALlFKcmFiVnQLQU4zcvFgCT2Vby": "action_listen",
+    "eJytj0EKgCAQRa/iATqBV4kYTKaUdCbU2oh3z8pttKjdPHj/wfS5dCKvAXdQOlkmKfJ9ACmPUjRwNiak6m4RQ3UsVUxSjMwLGE7oykvokmDi4L9UGkRUQZt7En/oPb2njaIZgdfTKmU4ALOSdA0=": "action_change_option",
+    "eJytj00KgCAQRq/iATqBV4kYTKaUakbU2kh3z342LcKgdvPgfQ+mTmslkvO4gNLRMkmRzgNITSjFBaMNESm7c0CfHUsZoxQt8wCGI45rIXRI0LGfvlQuCKi8Nuck/NB7ek8bRT0Cu9162bpvSslmA363k/c=": "action_listen",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohKb8kPjkjMScnNS89tbY2FgDS8h61": "utter_iamabot",
+    "eJyFjEEKgDAMBL+SB/iCfkUkxBI0UFNpUy+lfzeg9952YHbWPhbod+EHKZpkDdC/gUoXB/ghSTVWd1vl4o6oowXYs2E8KSXWg8ek1cy4oNBFfpu2thdA+Tu9": "action_listen",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMAVSfn52fFpOZnpGUCTYgGMrVDc": "flight_form",
+    "eJydjlsKgCAQRbcyC2gFbiVisBhN8hHj2I+49wT7F/q7Bw6Hu9a2QL2ZHtSHuBQV1DEw6kAKPvAuC8XulkzcHRc7igLLRNImjSJCjEP9V5i82FO60Hhnz2lpWGgSh0lnewEl62xG": "action_search_flights",
+    "eJyljk0KgCAQRq/iATqBV4kYLMYfSo1xbCPePUH3Qu3mwfses5a6iHITPqAOdjFIUfoBQXmUYsDlEmNobk5IzXGhIUthCJHrpJGZkaCr3wqTL/YYT9CXM3Za6hboSP5XZ0BCRYcdmzQpbi/g14vC": "action_listen",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMAVSfn52fEZ+SWpObW1sQA8OVB6": "hotel_form",
+    "eJydjlEKgCAQBa/iATqBV4lYLLaS1I117Ue8e5J9J/T3BobhjbkMKp+MF5hFLAWtchsQjEetXnA2CobqpohcHRsqilYbI0rpNJIIMjT1X6HzYiY6YCdB1ws9EqzE/rsy3eMTayA=": "action_search_hotels",
+    "eJyljkEKhDAMRa/SA3iCXmUYQpU/WtRmSKOb4t0ttmsLusuD9x/5pKMz6S/YyQ3qOViTykHBrbCmwuKjImR3i5Ds+JBRrRkF0KPR2FQhVNRnhcYXPfNMEyuWVuiS6MeyvqlUiHAyTGUS73vfEyuVidg=": "action_listen",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohKT8/Oz4tJzM9o6S2NhYAlpEd9g==": "flight_form",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohKT8/Oz4tJzM9o6SWgEkQVfFp+UW5BMyJBQDePjlg": "action_search_flights",
+    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohKT8/Oz4tJzM9o6SWgEkQVfFp+UW5FJkD5RSnJhYlZ0D1FBMwMRYASp1Y3A==": "action_listen",
+    "eJytj0EKgCAQRa/iATqBV4kYTCaVdCbU2oh3z8httKjdPHj/wYylDqJsEQ9QOjsmKcp9AKmAUnTwLmWk5u4JY3McNcxSzMwrLN4Zm+tL6bZg4Rg+dTokVFHbvkl/FJ9+1FaRQeDtsmqdTvvOdfc=": "action_change_option",
+    "eJytj0sKgDAMBa/SA3iCXkUk1JJ+UBNpq5vi3a3YjQtR0F0G5g2kzVsj8hxwBaWTZ5IinweQmlCKCqOPCam4S8RQHE8FkxQ98wBm9Nal7aF0WmA4TJ86FSKqoF3dxD+Kdz9qp8gi8HxYL1vXzVOy2wFl4JXh": "action_listen"
+  }
+}

@@ -1,0 +1,204 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - inform
+  - book_flight
+  - book_hotel
+  - select_flight
+  - select_option
+  - confirm_reservation
+  - confirm
+  - bot_challenge
+  - change_option
+
+entities:
+  - ville_depart
+  - ville_destination
+  - date_depart
+  - date_retour
+  - classe
+  - type_vol
+  - categorie_hotel
+  - ville_hotel
+  - nombre_personnes
+
+slots:
+  ville_depart:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: ville_depart
+    - type: from_entity
+      entity: ville_hotel
+      conditions:
+      - active_loop: flight_form
+        requested_slot: ville_depart
+    - type: from_entity
+      entity: ville_destination
+      conditions:
+      - active_loop: flight_form
+        requested_slot: ville_depart
+      
+  ville_destination:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: ville_destination
+    - type: from_entity
+      entity: ville_hotel
+      conditions:
+      - active_loop: flight_form
+        requested_slot: ville_destination
+    - type: from_entity
+      entity: ville_depart
+      conditions:
+      - active_loop: flight_form
+        requested_slot: ville_destination
+      
+  date_depart:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: date_depart
+      
+  date_retour:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: date_retour
+      
+  classe:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: classe
+      
+  type_vol:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: type_vol
+      
+  categorie_hotel:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: categorie_hotel
+      
+  ville_hotel:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: ville_hotel
+    - type: from_entity
+      entity: ville_depart
+      conditions:
+      - active_loop: hotel_form
+        requested_slot: ville_hotel
+    - type: from_entity
+      entity: ville_destination
+      conditions:
+      - active_loop: hotel_form
+        requested_slot: ville_hotel
+      
+  nombre_personnes:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: nombre_personnes
+
+  selected_hotel:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: custom
+
+  selected_option:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: custom
+
+  flight_details:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: custom
+
+responses:
+  utter_greet:
+    - text: "مرحباً! أنا مساعد السفر الذكي. كيف يمكنني مساعدتك اليوم؟"
+    - text: "أهلاً وسهلاً! أنا هنا لمساعدتك في حجز رحلاتك وإقامتك. ماذا تريد أن تفعل؟"
+    
+  utter_goodbye:
+    - text: "مع السلامة! نتمنى لك رحلة سعيدة"
+    - text: "إلى اللقاء! نتمنى لك رحلة ممتعة"
+    
+  utter_iamabot:
+    - text: "أنا مساعد ذكي لحجز الرحلات والفنادق. كيف يمكنني مساعدتك؟"
+    
+  utter_ask_ville_depart:
+    - text: "من أي مدينة تريد السفر؟"
+    
+  utter_ask_ville_destination:
+    - text: "إلى أي مدينة تريد السفر؟"
+    
+  utter_ask_date_depart:
+    - text: "متى تريد السفر؟ مثال: 15 مايو، غداً، الأسبوع القادم"
+    
+  utter_ask_date_retour:
+    - text: "متى تريد العودة؟"
+    
+  utter_ask_classe:
+    - text: "أي درجة تفضل؟ (اقتصادية، أعمال، أولى)"
+    
+  utter_ask_categorie_hotel:
+    - text: "كم نجمة تريد للفندق؟ (3، 4، 5 نجوم)"
+    
+  utter_ask_ville_hotel:
+    - text: "في أي مدينة تريد الإقامة؟"
+    
+  utter_ask_nombre_personnes:
+    - text: "كم عدد الأشخاص؟ مثال: شخصين، 4 أشخاص"
+
+actions:
+  - action_search_flights
+  - action_search_hotels
+  - action_confirm_reservation
+  - action_change_option
+  - action_select_option
+  - validate_flight_form
+  - validate_hotel_form
+  - action_default_fallback
+  - action_restart
+
+forms:
+  flight_form:
+    required_slots:
+      - ville_depart
+      - ville_destination  
+      - date_depart
+      - classe
+      
+  hotel_form:
+    required_slots:
+      - ville_hotel
+      - categorie_hotel
+      - nombre_personnes
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

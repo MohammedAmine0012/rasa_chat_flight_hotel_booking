@@ -1,0 +1,94 @@
+version: "3.1"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: Greet rule
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: Activate flight form
+  steps:
+  - intent: book_flight
+  - action: flight_form
+  - active_loop: flight_form
+
+- rule: Submit flight form
+  condition:
+  - active_loop: flight_form
+  steps:
+  - action: flight_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_search_flights
+
+- rule: Activate hotel form  
+  steps:
+  - intent: book_hotel
+  - action: hotel_form
+  - active_loop: hotel_form
+
+- rule: Submit hotel form
+  condition:
+  - active_loop: hotel_form
+  steps:
+  - action: hotel_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_search_hotels
+
+- rule: Handle option selection
+  steps:
+  - intent: select_option
+  - action: action_select_option
+
+- rule: Handle confirmation after hotel selection
+  condition:
+  - slot_was_set:
+    - selected_hotel: "الخيار الثاني"
+  steps:
+  - intent: affirm
+  - action: action_confirm_reservation
+
+- rule: Handle confirmation after hotel selection option 1
+  condition:
+  - slot_was_set:
+    - selected_hotel: "الخيار الأول"
+  steps:
+  - intent: affirm
+  - action: action_confirm_reservation
+
+- rule: Handle confirmation after hotel selection option 3
+  condition:
+  - slot_was_set:
+    - selected_hotel: "الخيار الثالث"
+  steps:
+  - intent: affirm
+  - action: action_confirm_reservation
+
+- rule: Handle flight selection
+  steps:
+  - intent: select_flight
+  - action: action_select_option
+
+- rule: Handle flight confirmation
+  steps:
+  - intent: confirm_reservation
+  - action: action_confirm_reservation
+
+- rule: Handle change request
+  steps:
+  - intent: change_option
+  - action: action_change_option

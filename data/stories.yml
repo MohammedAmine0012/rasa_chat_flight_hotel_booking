@@ -1,0 +1,65 @@
+version: "3.1"
+
+stories:
+
+- story: simple flight booking
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: book_flight
+  - action: flight_form
+  - active_loop: flight_form
+  - active_loop: null
+  - action: action_search_flights
+
+- story: hotel booking path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: book_hotel
+  - action: hotel_form
+  - active_loop: hotel_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: ville_hotel
+  - slot_was_set:
+    - requested_slot: categorie_hotel
+  - slot_was_set:
+    - requested_slot: nombre_personnes
+  - action: action_search_hotels
+  - intent: select_option
+  - action: action_select_option
+  - intent: affirm
+  - action: action_confirm_reservation
+
+- story: flight booking with change
+  steps:
+  - intent: book_flight
+  - action: flight_form
+  - active_loop: flight_form
+  - active_loop: null
+  - action: action_search_flights
+  - intent: change_option
+  - action: action_change_option
+
+- story: hotel booking with change
+  steps:
+  - intent: book_hotel
+  - action: hotel_form
+  - active_loop: hotel_form
+  - active_loop: null
+  - action: action_search_hotels
+  - intent: change_option
+  - action: action_change_option
+
+- story: simple greeting
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: bot challenge response
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot

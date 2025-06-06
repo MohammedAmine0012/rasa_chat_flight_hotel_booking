@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وكالة السفر الذكية</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --accent-color: #FFE66D;
+            --background-color: #F7F9FC;
+            --text-color: #2C3E50;
+            --card-color: #FFFFFF;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --sidebar-width: 280px;
+            --user-icon-bg: var(--soft-coral);
+            --bot-icon-bg: var(--turquoise);
+            --input-bg: #f8f9fa;
+            --input-border: #ced4da;
+            --send-button-bg: var(--turquoise);
+            --send-button-hover-bg: #3ac7b8;
+            --typing-indicator-color: #007bff;
+            --quick-reply-bg: #e9ecef;
+            --quick-reply-hover-bg: #dae0e5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 107, 107, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 20%);
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--card-color);
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            right: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .new-chat-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .new-chat-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .conversation-list {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .conversation-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .conversation-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .conversation-item.active {
+            background: rgba(78, 205, 196, 0.1);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex-grow: 1;
+            margin-right: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        /* User Account Section */
+        .user-account {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .user-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .user-menu.active {
+            display: block;
+        }
+
+        .user-menu-item {
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .user-menu-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Existing Chat Styles */
+        .chat-container {
+            background: var(--card-color);
+            border-radius: 20px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-banner h2 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .welcome-banner p {
+            margin: 0;
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .welcome-banner i {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-messages {
+            height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--background-color);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease-in-out;
+            position: relative;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-items: flex-end;
+        }
+
+        .message.bot {
+            align-items: flex-start;
+        }
+
+        .message-icon {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .message.user .message-icon {
+            right: 0;
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .message.bot .message-icon {
+            left: 0;
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 15px;
+            border-radius: 15px;
+            position: relative;
+            margin-top: 5px;
+            line-height: 1.6;
+        }
+
+        .message-content h1, .message-content h2, .message-content h3 {
+            margin: 0 0 10px 0;
+            color: inherit;
+        }
+
+        .message-content .section {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .message-content .section-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .message-content .divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 10px 0;
+        }
+
+        .message-content ul {
+            margin: 5px 0;
+            padding-right: 20px;
+        }
+
+        .message-content li {
+            margin: 5px 0;
+        }
+
+        .message-content .emoji {
+            font-size: 1.2em;
+            margin: 0 2px;
+        }
+
+        .message-content .highlight {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .message-content .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0;
+        }
+
+        .message-content .tips {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .message-content .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .message-content .available-cities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .message-content .city-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+
+        .message-content .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .message-content .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .message-content .detail-item i {
+            color: inherit;
+            opacity: 0.8;
+        }
+
+        .message-content .success-message {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 15px 0;
+            color: #4ECDC4;
+        }
+
+        .message-content .thank-you {
+            text-align: center;
+            font-style: italic;
+            margin-top: 15px;
+            opacity: 0.9;
+        }
+
+        .user .message-content {
+            background: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot .message-content {
+            background: var(--card-color);
+            color: var(--text-color);
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: var(--card-color);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-control {
+            border: 2px solid #E0E0E0;
+            border-radius: 15px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(78, 205, 196, 0.25);
+        }
+
+        .btn-send {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 12px 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-send:hover {
+            background: #3DBEB6;
+            transform: translateY(-2px);
+        }
+
+        .quick-replies {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .quick-reply {
+            background: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .quick-reply:hover {
+            background: #FFD93D;
+            transform: translateY(-2px);
+        }
+
+        .flight-card, .hotel-card {
+            background: var(--card-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .flight-card h3, .hotel-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .flight-details, .hotel-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: var(--background-color);
+            border-radius: 10px;
+        }
+
+        .detail-item i {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border: 3px solid var(--background-color);
+            border-radius: 50%;
+            border-top: 3px solid var(--secondary-color);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-right: 0;
+            }
+
+            .user-account {
+                left: 10px;
+            }
+        }
+
+        .message-content .booking-confirmation {
+            background: #fff;
+            border: 2px solid #4ECDC4;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(78,205,196,0.15);
+            padding: 24px 20px;
+            margin: 20px 0;
+            font-size: 1.1em;
+            color: #2C3E50;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .message-content .booking-header {
+            text-align: center;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .message-content .booking-section {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            margin-bottom: 15px;
+        }
+
+        .message-content .booking-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .message-content .section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .message-content .flight-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .message-content .flight-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+        }
+
+        .message-content .contact-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .message-content .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .message-content .tips-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .message-content .tips-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+        }
+
+        .message-content .tips-list li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .message-content .booking-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .message-content .thank-you-message {
+            font-size: 1.1em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .message-content .restart-message {
+            font-size: 0.9em;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-color);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            position: relative;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .close-modal:hover {
+            opacity: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+
+        .btn-submit {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            width: 100%;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .form-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .conversation-item {
+            position: relative;
+        }
+
+        .conversation-item .delete-btn {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .conversation-item:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .conversation-item .timestamp {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>المحادثات السابقة</h3>
+            </div>
+            <button class="new-chat-btn" onclick="startNewChat()">
+                <i class="fas fa-plus"></i>
+                محادثة جديدة
+            </button>
+            <div class="conversation-list" id="conversation-list">
+                <!-- Conversation history will be added here -->
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <i class="fas fa-plane-departure"></i>
+                <h2>وكالة السفر الذكية</h2>
+                <p>مرحباً بك! أنا مساعدك الشخصي لحجز الرحلات والفنادق</p>
+            </div>
+
+            <!-- User Account Section -->
+            <div class="user-account">
+                <div class="user-avatar" onclick="toggleUserMenu()">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-menu" id="user-menu">
+                    <div class="user-menu-item" onclick="showLoginForm()">
+                        <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                    </div>
+                    <div class="user-menu-item" onclick="showRegisterForm()">
+                        <i class="fas fa-user-plus"></i> إنشاء حساب
+                    </div>
+                    <div class="user-menu-item" onclick="showProfile()">
+                        <i class="fas fa-user-circle"></i> الملف الشخصي
+                    </div>
+                    <div class="user-menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>
+                        <i class="fas fa-comments"></i>
+                        المحادثة
+                    </h2>
+                    <button class="btn btn-light btn-sm" onclick="clearChat()">
+                        <i class="fas fa-redo"></i> بدء محادثة جديدة
+                    </button>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+                
+                <div class="chat-input">
+                    <div class="input-group">
+                        <input type="text" id="user-input" class="form-control" 
+                               placeholder="اكتب رسالتك هنا..." 
+                               onkeypress="handleKeyPress(event)">
+                        <button class="btn-send" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                            إرسال
+                        </button>
+                    </div>
+                    <div class="quick-replies" id="quick-replies">
+                        <!-- Quick reply buttons will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('login-modal')">&times;</button>
+            <div class="modal-header">
+                <h3>تسجيل الدخول</h3>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="login-email">البريد الإلكتروني</label>
+                    <input type="email" id="login-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">كلمة المرور</label>
+                    <input type="password" id="login-password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-submit">تسجيل الدخول</button>
+                <div class="form-footer">
+                    <p>ليس لديك حساب؟ <a onclick="showRegisterForm()">إنشاء حساب جديد</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('register-modal')">&times;</button>
+            <div class="modal-header">
+                <h3>إنشاء حساب جديد</h3>
+            </div>
+            <form id="register-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="register-name">الاسم الكامل</label>
+                    <input type="text" id="register-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">البريد الإلكتروني</label>
+                    <input type="email" id="register-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">كلمة المرور</label>
+                    <input type="password" id="register-password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">تأكيد كلمة المرور</label>
+                    <input type="password" id="register-confirm-password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-submit">إنشاء حساب</button>
+                <div class="form-footer">
+                    <p>لديك حساب بالفعل؟ <a onclick="showLoginForm()">تسجيل الدخول</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let sessionId = generateSessionId();
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const quickReplies = document.getElementById('quick-replies');
+
+        function generateSessionId() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage(message, 'user');
+                userInput.value = '';
+                showTypingIndicator();
+                sendToRasa(message);
+            }
+        }
+
+        function addMessage(content, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            // Add icon
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'message-icon';
+            iconDiv.innerHTML = sender === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            messageDiv.appendChild(iconDiv);
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            if (content.includes('الرحلة') || content.includes('الفندق')) {
+                messageContent.innerHTML = formatCard(content);
+            } else {
+                messageContent.innerHTML = formatMessage(content);
+            }
+            
+            messageDiv.appendChild(messageContent);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function formatCard(content) {
+            const lines = content.split('\n');
+            let cardHtml = '<div class="flight-card">';
+            
+            lines.forEach(line => {
+                if (line.trim()) {
+                    if (line.includes('الرحلة') || line.includes('الفندق')) {
+                        cardHtml += `<h3>${line}</h3>`;
+                    } else {
+                        const [label, value] = line.split(':').map(s => s.trim());
+                        if (label && value) {
+                            cardHtml += `
+                                <div class="detail-item">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span><strong>${label}:</strong> ${value}</span>
+                                </div>
+                            `;
+                        }
+                    }
+                }
+            });
+            
+            cardHtml += '</div>';
+            return cardHtml;
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.className = 'message bot';
+            indicator.innerHTML = '<div class="message-content"><div class="loading"></div></div>';
+            chatMessages.appendChild(indicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return indicator;
+        }
+
+        function removeTypingIndicator(indicator) {
+            if (indicator && indicator.parentNode) {
+                indicator.parentNode.removeChild(indicator);
+            }
+        }
+
+        function updateQuickReplies(buttons) {
+            quickReplies.innerHTML = '';
+            if (buttons && buttons.length > 0) {
+                buttons.forEach(button => {
+                    const buttonElement = document.createElement('button');
+                    buttonElement.className = 'quick-reply';
+                    buttonElement.textContent = button.title;
+                    buttonElement.onclick = () => {
+                        addMessage(button.title, 'user');
+                        sendToRasa(button.title);
+                    };
+                    quickReplies.appendChild(buttonElement);
+                });
+            }
+        }
+
+        function sendToRasa(message) {
+            const typingIndicator = showTypingIndicator();
+            
+            fetch('http://localhost:5005/webhooks/rest/webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sender: sessionId,
+                    message: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                removeTypingIndicator(typingIndicator);
+                
+                if (data && data.length > 0) {
+                    data.forEach(response => {
+                        if (response.text) {
+                            addMessage(response.text, 'bot');
+                        }
+                        if (response.buttons) {
+                            updateQuickReplies(response.buttons);
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                removeTypingIndicator(typingIndicator);
+                addMessage('عذراً، حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.', 'bot');
+            });
+        }
+
+        function clearChat() {
+            chatMessages.innerHTML = '';
+            quickReplies.innerHTML = '';
+            sessionId = generateSessionId();
+            addMessage('وكالة السفر الذكية\nمرحباً بك! أنا مساعدك الشخصي لحجز الرحلات والفنادق', 'bot');
+            updateQuickReplies([
+                { title: 'أريد حجز رحلة طيران' },
+                { title: 'أريد حجز فندق' }
+            ]);
+        }
+
+        function formatMessage(content) {
+            // Render booking confirmation as a card
+            if (content.includes('<booking-confirmation>')) {
+                const inner = content.replace('<booking-confirmation>', '').replace('</booking-confirmation>', '');
+                return `<div class="booking-confirmation">${inner.replace(/\n/g, '<br>')}</div>`;
+            }
+            // Handle booking confirmation message
+            if (content.includes('تهانينا! تم تأكيد حجزك بنجاح')) {
+                return `
+                    <div class="booking-confirmation">
+                        <div class="booking-header">
+                            <span class="emoji">🎉</span> تهانينا! تم تأكيد حجزك بنجاح! <span class="emoji">🎉</span>
+                        </div>
+                        
+                        <div class="booking-section">
+                            <div class="section-header">
+                                <span class="emoji">📋</span> تفاصيل حجزك
+                            </div>
+                            <div class="flight-details">
+                                <div class="flight-item">
+                                    <i class="fas fa-plane-departure"></i>
+                                    <span>من: نيويورك</span>
+                                </div>
+                                <div class="flight-item">
+                                    <i class="fas fa-plane-arrival"></i>
+                                    <span>إلى: لوس أنجلوس</span>
+                                </div>
+                                <div class="flight-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>تاريخ السفر: 2026-05-15</span>
+                                </div>
+                                <div class="flight-item">
+                                    <i class="fas fa-chair"></i>
+                                    <span>الدرجة: اقتصادية</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="booking-section">
+                            <div class="section-header">
+                                <span class="emoji">📧</span> معلومات إضافية
+                            </div>
+                            <p>ستصلك تفاصيل الحجز عبر البريد الإلكتروني خلال 10 دقائق</p>
+                        </div>
+
+                        <div class="booking-section">
+                            <div class="section-header">
+                                <span class="emoji">📱</span> خدمة العملاء
+                            </div>
+                            <div class="contact-details">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+212-5XX-XXXXXX</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span>+212-6XX-XXXXXX</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>متاح 24/7</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="booking-section">
+                            <div class="section-header">
+                                <span class="emoji">🎯</span> نصائح مهمة
+                            </div>
+                            <ul class="tips-list">
+                                <li>احتفظ برقم الحجز للمراجعة</li>
+                                <li>تأكد من صحة جواز السفر (للطيران الدولي)</li>
+                                <li>اوصل للمطار قبل 3 ساعات (دولي) أو 2 ساعة (محلي)</li>
+                                <li>تحقق من شروط الإلغاء والتعديل</li>
+                            </ul>
+                        </div>
+
+                        <div class="booking-footer">
+                            <div class="thank-you-message">
+                                <span class="emoji">🌟</span> شكراً لثقتك بوكالة السفر الذكية! <span class="emoji">✨</span>
+                            </div>
+                            <div class="restart-message">
+                                <span class="emoji">🔄</span> لحجز جديد، قل 'مرحبا' أو اضغط إعادة التشغيل
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Handle error messages
+            if (content.includes('عذراً، يرجى اختيار مدينة صحيحة')) {
+                return `
+                    <div class="error-message">
+                        <div class="section-header">
+                            <span class="emoji">⚠️</span> تنبيه
+                        </div>
+                        <p>عذراً، يرجى اختيار مدينة صحيحة للمغادرة.</p>
+                        <div class="booking-section">
+                            <div class="section-header">المدن المغربية المتاحة:</div>
+                            <div class="available-cities">
+                                <span class="city-tag">الرباط</span>
+                                <span class="city-tag">الدار البيضاء</span>
+                                <span class="city-tag">مراكش</span>
+                                <span class="city-tag">فاس</span>
+                                <span class="city-tag">أكادير</span>
+                                <span class="city-tag">طنجة</span>
+                            </div>
+                        </div>
+                        <div class="booking-section">
+                            <div class="section-header">الوجهات الدولية المتاحة:</div>
+                            <div class="available-cities">
+                                <span class="city-tag">باريس</span>
+                                <span class="city-tag">لندن</span>
+                                <span class="city-tag">مدريد</span>
+                                <span class="city-tag">دبي</span>
+                                <span class="city-tag">نيويورك</span>
+                                <span class="city-tag">لوس أنجلوس</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Handle destination selection message
+            if (content.includes('يرجى تحديد مدينة الوجهة')) {
+                return `
+                    <div class="info-message">
+                        <div class="section-header">
+                            <span class="emoji">🌍</span> اختيار الوجهة
+                        </div>
+                        <p>يرجى تحديد مدينة الوجهة</p>
+                        <div class="available-cities">
+                            <span class="city-tag">باريس</span>
+                            <span class="city-tag">لندن</span>
+                            <span class="city-tag">مدريد</span>
+                            <span class="city-tag">دبي</span>
+                            <span class="city-tag">القاهرة</span>
+                            <span class="city-tag">تونس</span>
+                            <span class="city-tag">إسطنبول</span>
+                            <span class="city-tag">نيويورك</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Handle other messages
+            return content;
+        }
+
+        // New functions for sidebar and user account
+        function toggleUserMenu() {
+            const menu = document.getElementById('user-menu');
+            menu.classList.toggle('active');
+        }
+
+        function showLoginForm() {
+            closeModal('register-modal');
+            showModal('login-modal');
+        }
+
+        function showRegisterForm() {
+            closeModal('login-modal');
+            showModal('register-modal');
+        }
+
+        function showProfile() {
+            // Implement profile display
+            console.log('Show profile');
+        }
+
+        function logout() {
+            // Implement logout functionality
+            console.log('Logout');
+        }
+
+        function startNewChat() {
+            clearChat();
+            // Add to conversation history
+            addToConversationHistory('محادثة جديدة');
+        }
+
+        function addToConversationHistory(title) {
+            const list = document.getElementById('conversation-list');
+            const item = document.createElement('div');
+            item.className = 'conversation-item';
+            item.innerHTML = `
+                <i class="fas fa-comment"></i>
+                <span>${title}</span>
+            `;
+            list.insertBefore(item, list.firstChild);
+        }
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('user-menu');
+            const avatar = document.querySelector('.user-avatar');
+            if (!menu.contains(event.target) && !avatar.contains(event.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        // Initialize chat
+        clearChat();
+
+        // Modal Functions
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Authentication Functions
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Here you would typically make an API call to your backend
+            console.log('Login attempt:', { email, password });
+            
+            // For demo purposes, we'll just close the modal and update the UI
+            closeModal('login-modal');
+            updateUserStatus(true);
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('كلمات المرور غير متطابقة');
+                return;
+            }
+            
+            // Here you would typically make an API call to your backend
+            console.log('Register attempt:', { name, email, password });
+            
+            // For demo purposes, we'll just close the modal and update the UI
+            closeModal('register-modal');
+            updateUserStatus(true);
+        }
+
+        function updateUserStatus(isLoggedIn) {
+            const userAvatar = document.querySelector('.user-avatar');
+            if (isLoggedIn) {
+                userAvatar.innerHTML = '<i class="fas fa-user-check"></i>';
+                userAvatar.style.background = 'var(--secondary-color)';
+            } else {
+                userAvatar.innerHTML = '<i class="fas fa-user"></i>';
+                userAvatar.style.background = 'var(--primary-color)';
+            }
+        }
+
+        // Conversation History Functions
+        let conversations = [];
+
+        function saveConversation() {
+            const messages = Array.from(chatMessages.children).map(msg => ({
+                content: msg.querySelector('.message-content').innerHTML,
+                sender: msg.classList.contains('user') ? 'user' : 'bot',
+                timestamp: new Date().toISOString()
+            }));
+            
+            const conversation = {
+                id: sessionId,
+                title: getConversationTitle(messages),
+                messages: messages,
+                timestamp: new Date().toISOString()
+            };
+            
+            conversations.unshift(conversation);
+            updateConversationList();
+            saveToLocalStorage();
+        }
+
+        function getConversationTitle(messages) {
+            const firstUserMessage = messages.find(m => m.sender === 'user');
+            if (firstUserMessage) {
+                return firstUserMessage.content.substring(0, 30) + '...';
+            }
+            return 'محادثة جديدة';
+        }
+
+        function updateConversationList() {
+            const list = document.getElementById('conversation-list');
+            list.innerHTML = '';
+            
+            conversations.forEach(conv => {
+                const item = document.createElement('div');
+                item.className = 'conversation-item';
+                item.innerHTML = `
+                    <i class="fas fa-comment"></i>
+                    <div class="conversation-content">
+                        <span>${conv.title}</span>
+                        <div class="timestamp">${formatDate(conv.timestamp)}</div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteConversation('${conv.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                item.onclick = () => loadConversation(conv.id);
+                list.appendChild(item);
+            });
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ar-SA', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function loadConversation(conversationId) {
+            const conversation = conversations.find(c => c.id === conversationId);
+            if (conversation) {
+                sessionId = conversation.id;
+                chatMessages.innerHTML = '';
+                conversation.messages.forEach(msg => {
+                    addMessage(msg.content, msg.sender);
+                });
+            }
+        }
+
+        function deleteConversation(conversationId) {
+            conversations = conversations.filter(c => c.id !== conversationId);
+            updateConversationList();
+            saveToLocalStorage();
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('conversations', JSON.stringify(conversations));
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('conversations');
+            if (saved) {
+                conversations = JSON.parse(saved);
+                updateConversationList();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            clearChat();
+        });
+
+        // Update sendMessage function to save conversations
+        const originalSendMessage = sendMessage;
+        sendMessage = function() {
+            originalSendMessage();
+            setTimeout(saveConversation, 1000); // Save after a short delay to ensure all messages are added
+        };
+    </script>
+</body>
+</html> 

@@ -1,0 +1,93 @@
+{
+  "type": "MaxHistoryTrackerFeaturizer",
+  "state_featurizer": {
+    "action_texts": [],
+    "entity_tag_specs": [],
+    "feature_states": {
+      "intent": {
+        "affirm": 0,
+        "back": 1,
+        "book_flight": 2,
+        "book_hotel": 3,
+        "bot_challenge": 4,
+        "change_option": 5,
+        "confirm_reservation": 6,
+        "deny": 7,
+        "goodbye": 8,
+        "greet": 9,
+        "inform": 10,
+        "nlu_fallback": 11,
+        "out_of_scope": 12,
+        "restart": 13,
+        "select_option": 14,
+        "session_start": 15
+      },
+      "action_name": {
+        "action_listen": 0,
+        "action_restart": 1,
+        "action_session_start": 2,
+        "action_default_fallback": 3,
+        "action_deactivate_loop": 4,
+        "action_revert_fallback_events": 5,
+        "action_default_ask_affirmation": 6,
+        "action_default_ask_rephrase": 7,
+        "action_two_stage_fallback": 8,
+        "action_unlikely_intent": 9,
+        "action_back": 10,
+        "...": 11,
+        "action_extract_slots": 12,
+        "action_search_flights": 13,
+        "action_search_hotels": 14,
+        "action_confirm_reservation": 15,
+        "action_change_option": 16,
+        "action_select_option": 17,
+        "validate_flight_form": 18,
+        "validate_hotel_form": 19,
+        "utter_ask_categorie_hotel": 20,
+        "utter_ask_classe": 21,
+        "utter_ask_confirmation": 22,
+        "utter_ask_date_depart": 23,
+        "utter_ask_date_retour": 24,
+        "utter_ask_nombre_personnes": 25,
+        "utter_ask_ville_depart": 26,
+        "utter_ask_ville_destination": 27,
+        "utter_ask_ville_hotel": 28,
+        "utter_goodbye": 29,
+        "utter_greet": 30,
+        "utter_iamabot": 31,
+        "flight_form": 32,
+        "hotel_form": 33
+      },
+      "entities": {
+        "categorie_hotel": 0,
+        "classe": 1,
+        "date_depart": 2,
+        "date_retour": 3,
+        "nombre_personnes": 4,
+        "quartier": 5,
+        "type_vol": 6,
+        "ville_depart": 7,
+        "ville_destination": 8,
+        "ville_hotel": 9
+      },
+      "slots": {
+        "ville_depart_0": 0,
+        "ville_destination_0": 1,
+        "date_depart_0": 2,
+        "date_retour_0": 3,
+        "classe_0": 4,
+        "type_vol_0": 5,
+        "categorie_hotel_0": 6,
+        "ville_hotel_0": 7,
+        "quartier_0": 8,
+        "nombre_personnes_0": 9
+      },
+      "active_loop": {
+        "flight_form": 0,
+        "hotel_form": 1
+      }
+    }
+  },
+  "remove_duplicates": true,
+  "max_history": 5
+}

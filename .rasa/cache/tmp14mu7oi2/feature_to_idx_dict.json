@@ -1,0 +1,44 @@
+{
+  "0###low": {
+    "False": 0,
+    "True": 1
+  },
+  "0###title": {
+    "False": 2
+  },
+  "0###upper": {
+    "False": 3
+  },
+  "1###BOS": {
+    "False": 4,
+    "True": 5
+  },
+  "1###EOS": {
+    "False": 6,
+    "True": 7
+  },
+  "1###digit": {
+    "False": 8,
+    "True": 9
+  },
+  "1###low": {
+    "False": 10,
+    "True": 11
+  },
+  "1###title": {
+    "False": 12
+  },
+  "1###upper": {
+    "False": 13
+  },
+  "2###low": {
+    "False": 14,
+    "True": 15
+  },
+  "2###title": {
+    "False": 16
+  },
+  "2###upper": {
+    "False": 17
+  }
+}

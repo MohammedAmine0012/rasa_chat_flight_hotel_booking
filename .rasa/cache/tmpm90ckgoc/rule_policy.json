@@ -1,0 +1,17 @@
+{
+  "lookup": {
+    "rules": {},
+    "rule_only_slots": [],
+    "rule_only_loops": [],
+    "rules_for_loop_unhappy_path": {},
+    "rules_not_in_stories": [
+      "handling active loops and forms - hotel_form",
+      "predicting default action with intent restart",
+      "handling active loops and forms - flight_form - action_listen",
+      "predicting default action with intent back",
+      "handling active loops and forms - hotel_form - action_listen",
+      "handling active loops and forms - flight_form",
+      "predicting default action with intent session_start"
+    ]
+  }
+}

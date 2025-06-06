@@ -1,0 +1,9 @@
+{
+  "rule_only_slots": [
+    "selected_hotel"
+  ],
+  "rule_only_loops": [
+    "hotel_form",
+    "flight_form"
+  ]
+}

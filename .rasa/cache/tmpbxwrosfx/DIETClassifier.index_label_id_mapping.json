@@ -1,0 +1,12 @@
+{
+  "0": "affirm",
+  "1": "book_flight",
+  "2": "book_hotel",
+  "3": "change_option",
+  "4": "confirm_reservation",
+  "5": "deny",
+  "6": "goodbye",
+  "7": "greet",
+  "8": "inform",
+  "9": "select_option"
+}
